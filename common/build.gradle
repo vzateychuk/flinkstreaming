@@ -1,0 +1,27 @@
+plugins {
+    id 'java-library'
+}
+
+group 'ru.vez'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+def flinkVersion = "1.16.1"
+
+dependencies {
+
+    implementation "org.apache.flink:flink-streaming-java:${flinkVersion}"
+    implementation "org.apache.flink:flink-runtime:${flinkVersion}"
+    implementation "org.apache.flink:flink-test-utils-junit:${flinkVersion}"
+    implementation "org.apache.flink:flink-test-utils:${flinkVersion}"
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}

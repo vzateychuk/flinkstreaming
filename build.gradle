@@ -11,9 +11,11 @@ repositories {
     mavenCentral()
 }
 
+def junitVersion = "1.16.1"
+
 dependencies {
-    implementation group: 'org.apache.flink', name: 'flink-streaming-java', version: '1.16.1'
-    implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.26'
+
+    implementation group: 'org.apache.flink', name: 'flink-streaming-java', version: "${junitVersion}"
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
