@@ -9,9 +9,11 @@ repositories {
     mavenCentral()
 }
 
+def flinkVersion = "1.16.1"
+
 dependencies {
-    implementation group: 'org.apache.flink', name: 'flink-streaming-java', version: '1.15.3'
-    implementation group: 'org.apache.flink', name: 'flink-clients', version: '1.15.3'
+    implementation group: 'org.apache.flink', name: 'flink-streaming-java', version: "${flinkVersion}"
+    implementation group: 'org.apache.flink', name: 'flink-clients', version: "${flinkVersion}"
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
