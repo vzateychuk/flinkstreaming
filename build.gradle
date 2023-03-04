@@ -2,6 +2,8 @@ plugins {
     id 'java'
 }
 
+description = "Apache Flink Training Exercises"
+
 group 'ru.vez'
 version '1.0-SNAPSHOT'
 
