@@ -1,3 +1,4 @@
 rootProject.name = 'flinkstreaming'
-include 'common'
+include 'common', 'ride-cleansing'
+
 
