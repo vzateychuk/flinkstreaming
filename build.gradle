@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.vez'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.apache.flink', name: 'flink-streaming-java', version: '1.16.1'
+    implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.26'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
