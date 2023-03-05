@@ -19,9 +19,6 @@ import ru.vez.common.datatypes.TaxiFare;
 import ru.vez.common.datatypes.TaxiRide;
 import ru.vez.common.sources.TaxiFareGenerator;
 import ru.vez.common.sources.TaxiRideGenerator;
-import ru.vez.utils.MissingSolutionException;
-
-import java.io.IOException;
 
 /**
  * The Stateful Enrichment exercise from the Flink training.
@@ -88,8 +85,7 @@ public class RidesAndFaresExercise {
         job.execute();
     }
 
-    public static class EnrichmentFunction
-            extends RichCoFlatMapFunction<TaxiRide, TaxiFare, RideAndFare> {
+    public static class EnrichmentFunction extends RichCoFlatMapFunction<TaxiRide, TaxiFare, RideAndFare> {
 
         /**
          * The ValueState handle. The first field is the TaxiRide, the second field a TaxiFare.
