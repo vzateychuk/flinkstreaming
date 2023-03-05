@@ -90,32 +90,30 @@ public class RidesAndFaresExercise {
         /**
          * The ValueState handle. The first field is the TaxiRide, the second field a TaxiFare.
          */
-        private transient ValueState<Tuple2<TaxiRide, TaxiFare>> rideAndFareValueState;
+        private ValueState<TaxiRide> rideState;
+        private ValueState<TaxiFare> fareState;
 
         @Override
         public void open(Configuration config) {
-            ValueStateDescriptor<Tuple2<TaxiRide, TaxiFare>> descriptor = new ValueStateDescriptor<>(
-                    "rideAndFare",         // the state name
-                    TypeInformation.of(new TypeHint<>() {}), // type information
-                    Tuple2.of(null, null)       // default value of the state, if nothing was set
-            ) ;
-            this.rideAndFareValueState = getRuntimeContext().getState(descriptor);
+            this.rideState = getRuntimeContext().getState(
+              new ValueStateDescriptor<>("rideState", TaxiRide.class)
+            );
+            this.fareState = getRuntimeContext().getState(
+                    new ValueStateDescriptor<>("fareState", TaxiFare.class)
+            );
         }
 
         @Override
         public void flatMap1(TaxiRide ride, Collector<RideAndFare> out) throws Exception {
             // access the state value
-            Tuple2<TaxiRide, TaxiFare> current = this.rideAndFareValueState.value();
-
-            // update the TaxiRide
-            current.f0 = ride;
+            TaxiFare taxiFare = this.fareState.value();
 
             // if the state contains both ride and fare, emit the RideAndFare and clear the state
-            if (current.f0 != null && current.f1 != null) {
-                out.collect(new RideAndFare(current.f0, current.f1));
-                this.rideAndFareValueState.clear();
+            if (taxiFare != null) {
+                out.collect(new RideAndFare(ride, taxiFare));
+                this.fareState.clear();
             } else {
-                this.rideAndFareValueState.update(current);
+                this.rideState.update(ride);
             }
         }
 
@@ -123,17 +121,14 @@ public class RidesAndFaresExercise {
         @Override
         public void flatMap2(TaxiFare fare, Collector<RideAndFare> out) throws Exception {
             // access the state value
-            Tuple2<TaxiRide, TaxiFare> current = this.rideAndFareValueState.value();
-
-            // update the TaxiRide state value
-            current.f1 = fare;
+            TaxiRide taxiRide = this.rideState.value();
 
             // if the state contains both ride and fare, emit the RideAndFare and clear the state
-            if (current.f0 != null && current.f1 != null) {
-                out.collect(new RideAndFare(current.f0, current.f1));
-                this.rideAndFareValueState.clear();
+            if (taxiRide != null) {
+                out.collect(new RideAndFare(taxiRide, fare));
+                this.rideState.clear();
             } else {
-                this.rideAndFareValueState.update(current);
+                this.fareState.update(fare);
             }
         }
     }
