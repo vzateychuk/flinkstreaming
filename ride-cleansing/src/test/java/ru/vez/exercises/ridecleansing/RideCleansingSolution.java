@@ -27,21 +27,20 @@ import org.apache.flink.streaming.api.functions.source.SourceFunction;
 import ru.vez.common.datatypes.TaxiRide;
 import ru.vez.common.sources.TaxiRideGenerator;
 import ru.vez.utils.GeoUtils;
-import ru.vez.utils.MissingSolutionException;
 
 /**
- * The Ride Cleansing exercise from the Flink training.
+ * Solution to the Ride Cleansing exercise from the Flink training.
  *
  * <p>The task of this exercise is to filter a data stream of taxi ride records to keep only rides
  * that both start and end within New York City. The resulting stream should be printed.
  */
-public class RideCleansingExercise {
+public class RideCleansingSolution {
 
-    private final SinkFunction<TaxiRide> sink;
     private final SourceFunction<TaxiRide> source;
+    private final SinkFunction<TaxiRide> sink;
 
     /** Creates a job using the source and sink provided. */
-    public RideCleansingExercise(SourceFunction<TaxiRide> source, SinkFunction<TaxiRide> sink) {
+    public RideCleansingSolution(SourceFunction<TaxiRide> source, SinkFunction<TaxiRide> sink) {
 
         this.source = source;
         this.sink = sink;
@@ -52,9 +51,9 @@ public class RideCleansingExercise {
      *
      * @throws Exception which occurs during job execution.
      */
-
     public static void main(String[] args) throws Exception {
-        RideCleansingExercise job = new RideCleansingExercise(new TaxiRideGenerator(), new PrintSinkFunction<>());
+        RideCleansingSolution job =
+                new RideCleansingSolution(new TaxiRideGenerator(), new PrintSinkFunction<>());
 
         job.execute();
     }
@@ -65,7 +64,6 @@ public class RideCleansingExercise {
      * @return {JobExecutionResult}
      * @throws Exception which occurs during job execution.
      */
-
     public JobExecutionResult execute() throws Exception {
 
         // set up streaming execution environment
@@ -78,7 +76,7 @@ public class RideCleansingExercise {
         return env.execute("Taxi Ride Cleansing");
     }
 
-    /**  Keep only those rides and both start and end in NYC. */
+    /** Keep only those rides and both start and end in NYC. */
     public static class NYCFilter implements FilterFunction<TaxiRide> {
         @Override
         public boolean filter(TaxiRide taxiRide) {
