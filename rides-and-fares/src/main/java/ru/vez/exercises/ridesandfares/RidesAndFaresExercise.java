@@ -62,8 +62,11 @@ public class RidesAndFaresExercise {
         DataStream<TaxiFare> fares = env.addSource(fareSource)
                                         .keyBy(fare -> fare.rideId);
 
-        // Create the pipeline.
-        rides.connect(fares).flatMap(new EnrichmentFunction()).addSink(sink);
+        // Mix event streams (rides/fares)
+        rides.connect(fares)
+                // Then map mixed stream with stateful RichCoFlatMapFunction to RideAndFare stream
+                .flatMap(new EnrichmentFunction())
+                .addSink(sink);
 
         // Execute the pipeline and return the result.
         return env.execute("Join Rides with Fares");
