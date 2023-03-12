@@ -1,4 +1,3 @@
 rootProject.name = 'flinkstreaming'
-include 'common', 'ride-cleansing'
-include 'rides-and-fares'
+include 'common', 'ride-cleansing', 'rides-and-fares', 'hourly-tips'
 
